@@ -28,7 +28,9 @@ def get_base_pair(base):
 def search_pattern(sense, pattern):
     for i in range(0, len(sense) - len(pattern) + 1):
         j = 0
-        while j < len(pattern) and pattern[j] == sense[i + j] :
+        while j < len(pattern) and pattern[j] == sense[i + j]:
             j += 1
         if j == len(pattern):
-            print("HEUREKA")
+            print("found pattern at {}".format(i))
+            return True
+    return False
