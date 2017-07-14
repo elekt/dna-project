@@ -1,7 +1,7 @@
 from util import get_random_base, get_base_pair, search_pattern
 
 sense = []
-for i in range(0, 10):
+for i in range(0, 10000):
     base = get_random_base()
     pair = get_base_pair(base)
     sense.append((base, pair))
