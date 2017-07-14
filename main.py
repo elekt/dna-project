@@ -1,4 +1,4 @@
-from util import get_random_base, get_base_pair, search_pattern
+from util import get_random_base, get_base_pair, search_pattern, make_m_rns
 
 sense = []
 for i in range(0, 500):
@@ -6,7 +6,9 @@ for i in range(0, 500):
     pair = get_base_pair(base)
     sense.append((base, pair))
 
-pattern = [('G', 'C'), ('G', 'C'), ('A', 'T')]
-print(sense)
-print(pattern)
-search_pattern(sense, pattern)
+# pattern = [('G', 'C'), ('G', 'C'), ('A', 'T')]
+# print(sense)
+# print(pattern)
+# search_pattern(sense, pattern)
+
+m_rns = make_m_rns(sense)

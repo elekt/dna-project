@@ -32,3 +32,17 @@ def search_pattern(sense, pattern):
             j += 1
         if j == len(pattern):
             print("HEUREKA")
+
+
+def make_m_rns(sense):
+    m_rns = []
+    for (base, pair) in sense:
+        m_rns.append(base)
+
+    # remove signedparts
+    for i in range(len(m_rns)):
+        print(m_rns[i])
+
+    # add prefix, suffix
+
+    return m_rns
