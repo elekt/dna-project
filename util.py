@@ -1,5 +1,11 @@
 import random
 
+DEFAULT_AMINO_ACIDS = {
+    ('A', 'A', 'B'): "amino_acid_0",
+    ('A', 'G', 'U'): "amino_acid_1",
+    ('A', 'U', 'U'): "amino_acid_2",
+    ('A', 'U', 'G'): "amino_acid_3"
+}
 
 def get_random_base():
     baseint = random.randint(0, 99)
@@ -25,21 +31,44 @@ def get_base_pair(base):
         return 'T'
 
 
-def pattern_positions(sense, pattern):
-    positions = []
-    for i in range(0, len(sense) - len(pattern) + 1):
+def pattern_positions(sense, pattern_start, pattern_end):
+    start_positions = []
+    end_positions = []
+    is_searching_start = True
+
+    i = 0
+    # if in the end start is coming and longer than
+    while i < len(sense) - len(pattern_end) + 1:
         j = 0
+        pattern = pattern_end
+        if is_searching_start:
+            pattern = pattern_start
+
         while j < len(pattern) and pattern[j] == sense[i + j]:
             j += 1
+
         if j == len(pattern):
-            positions.append(i)
-    return positions
+            if is_searching_start:
+                start_positions.append(i)
+                is_searching_start = False
+            else:
+                end_positions.append(i)
+                is_searching_start = True
+            i += j
+        else:
+            i += 1
+
+    if not is_searching_start:
+        _ = start_positions.pop()
+
+    if len(start_positions) != len(end_positions):
+        print("ERROR: different start position count than end")
+
+    return start_positions, end_positions
 
 
 def make_m_rns(sense):
     m_rns = []
-    pattern_start = [ 'A', 'C']
-    pattern_end = [ 'C', 'A']
 
     # T -> U
     for (b, p) in sense:
@@ -48,36 +77,49 @@ def make_m_rns(sense):
             d_base = 'U'
         m_rns += d_base
 
-    print(m_rns)
-
-    # remove signedparts
-    start_list = pattern_positions(m_rns, pattern_start)
-    ends_list = pattern_positions(m_rns, pattern_end)
-
-    print("start list: {} end list: {}".format(start_list, ends_list))
-    m_rns_index_offset = 0
-    for start in start_list:
-        i = 0
-        if len(ends_list) == 0:
-            return m_rns
-
-        while i < len(ends_list) and ends_list[i] <= start + len(pattern_start) - 1:
-            i += 1
-
-        if i < len(ends_list):
-            end = ends_list[i] + len(pattern_end) - 1
-            # remove the part from start -> i from m_rns
-            if len(ends_list) > 0 and i < len(ends_list):
-                ends_list = ends_list[i:]
-                start_with_offset = start - m_rns_index_offset
-                end_with_offset = end - m_rns_index_offset + 1
-                if start_with_offset < end_with_offset:
-                    print("removed {} {}".format(start_with_offset, end_with_offset))
-                    m_rns = m_rns[:start_with_offset] + m_rns[end_with_offset:]
-                    m_rns_index_offset += end - start + 1
-                    print m_rns
-                    continue
-
-    # add prefix, suffix
+    print("mRNS U->T tran: {}".format(m_rns))
+    m_rns = remove_dns_parts(m_rns)
+    print("mRNS removed parts: {}".format(m_rns))
 
     return m_rns
+
+
+def remove_dns_parts(m_rns):
+    sliced_m_rns = []
+    pattern_start = ['A', 'A']
+    pattern_end = ['G', 'C']
+
+    # remove signedparts
+    start_list, end_list = pattern_positions(m_rns, pattern_start, pattern_end)
+    print("Start guard positions: {}".format(start_list))
+    print("End guard positions: {}".format(end_list))
+
+    start = len(m_rns)
+    end = len(m_rns)
+    if len(start_list) > 0:
+        start = start_list.pop(0)
+        end = end_list.pop(0)
+    for i in range(0, len(m_rns)):
+        if i < start:
+            sliced_m_rns.append(m_rns[i])
+        elif i == end + len(pattern_end) - 1:
+            if len(start_list) > 0:
+                start = start_list.pop(0)
+                end = end_list.pop(0)
+            else:
+                start = len(m_rns)
+                end = len(m_rns)
+        i += 1
+    return sliced_m_rns
+
+
+def get_aminoacids(m_rns):
+    amino_acids = []
+
+    for i in range(0, len(m_rns) - 3, 3):
+        codon = (m_rns[i], m_rns[i+1], m_rns[i+2])
+        print(codon)
+        if codon in DEFAULT_AMINO_ACIDS:
+            amino_acids.append(DEFAULT_AMINO_ACIDS[codon])
+
+    return amino_acids
