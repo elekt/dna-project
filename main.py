@@ -4,7 +4,7 @@ sense = []
 start_codon = [('A', get_base_pair('A')), ('U', get_base_pair('U')), ('G', get_base_pair('G'))]
 stop_codon = [('A', get_base_pair('A')), ('U', get_base_pair('U')), ('U', get_base_pair('U'))]
 sense.extend(start_codon)
-for i in range(0, 20):
+for i in range(0, 21):
     base = get_random_base()
     pair = get_base_pair(base)
     sense.append((base, pair))

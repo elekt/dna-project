@@ -4,7 +4,7 @@ DEFAULT_AMINO_ACIDS = {
     ('A', 'A', 'B'): "amino_acid_0",
     ('A', 'G', 'U'): "amino_acid_1",
     ('A', 'U', 'U'): "amino_acid_2",
-    ('A', 'U', 'G'): "amino_acid_3"
+    ('A', 'U', 'G'): "metionin"
 }
 
 def get_random_base():
@@ -77,9 +77,8 @@ def make_m_rns(sense):
             d_base = 'U'
         m_rns += d_base
 
-    print("mRNS U->T tran: {}".format(m_rns))
     m_rns = remove_dns_parts(m_rns)
-    print("mRNS removed parts: {}".format(m_rns))
+    print("mRNS with removed parts: {}".format(m_rns))
 
     return m_rns
 
@@ -91,8 +90,6 @@ def remove_dns_parts(m_rns):
 
     # remove signedparts
     start_list, end_list = pattern_positions(m_rns, pattern_start, pattern_end)
-    print("Start guard positions: {}".format(start_list))
-    print("End guard positions: {}".format(end_list))
 
     start = len(m_rns)
     end = len(m_rns)
@@ -118,7 +115,6 @@ def get_aminoacids(m_rns):
 
     for i in range(0, len(m_rns) - 3, 3):
         codon = (m_rns[i], m_rns[i+1], m_rns[i+2])
-        print(codon)
         if codon in DEFAULT_AMINO_ACIDS:
             amino_acids.append(DEFAULT_AMINO_ACIDS[codon])
 
