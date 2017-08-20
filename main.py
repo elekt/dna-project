@@ -1,8 +1,8 @@
 from util import get_random_base, get_base_pair, make_m_rns, get_aminoacids
 
 sense = []
-start_codon = [('A', get_base_pair('A')), ('U', get_base_pair('U')), ('G', get_base_pair('G'))]
-stop_codon = [('A', get_base_pair('A')), ('U', get_base_pair('U')), ('U', get_base_pair('U'))]
+start_codon = [('A', get_base_pair('A')), ('T', get_base_pair('T')), ('G', get_base_pair('G'))]
+stop_codon = [('A', get_base_pair('A')), ('T', get_base_pair('T')), ('T', get_base_pair('T'))]
 sense.extend(start_codon)
 for i in range(0, 21):
     base = get_random_base()
