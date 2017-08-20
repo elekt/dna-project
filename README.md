@@ -1,2 +1,3 @@
 # DNA project
-Simulation of DNA expression to proteins from any given or gererated DNA sequence
+Simulation of DNA expression to proteins from any given or gererated DNA sequence.
+Containing codon dictionary.
