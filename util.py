@@ -138,8 +138,6 @@ def make_m_rns(sense):
         m_rns += d_base
 
     m_rns = remove_dns_parts(m_rns)
-    print("mRNS with removed parts: {}".format(m_rns))
-
     return m_rns
 
 

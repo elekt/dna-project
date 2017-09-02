@@ -9,6 +9,9 @@ for i in range(0, 21):
     pair = get_base_pair(base)
     sense.append((base, pair))
 sense.extend(stop_codon)
-print("Original sense: {}".format(sense))
+
 m_rns = make_m_rns(sense)
-print(get_aminoacids(m_rns))
+print("mRNS: {}".format(m_rns))
+
+amino_acids = get_aminoacids(m_rns)
+print("amino acids: {}".format(amino_acids))
