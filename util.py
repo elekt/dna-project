@@ -79,6 +79,9 @@ def get_random_base():
     else:
         return 'A'
 
+def get_tobacco_mosaic_virus(filename="tmv.gene"):
+    with open(filename, "r+") as f:
+        return f.readlines()[0]
 
 def get_base_pair(base):
     if base == 'C':
@@ -141,6 +144,7 @@ def make_m_rns(sense):
     return m_rns
 
 
+# remove introns
 def remove_dns_parts(m_rns):
     sliced_m_rns = []
     pattern_start = ['A', 'A']
@@ -150,7 +154,7 @@ def remove_dns_parts(m_rns):
     start_list, end_list = pattern_positions(m_rns, pattern_start, pattern_end)
 
     start = len(m_rns)
-    end = len(m_rns)
+s_searching_start    end = len(m_rns)
     if len(start_list) > 0:
         start = start_list.pop(0)
         end = end_list.pop(0)
